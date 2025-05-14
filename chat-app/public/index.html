@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>실시간 채팅</title>
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="icon" href="/path/to/icon.png" />
+</head>
+<body>
+  <div id="auth-container">
+    <h1>실시간 채팅</h1>
+    <div id="auth-box">
+      <input type="text" id="username" placeholder="사용자 이름" />
+      <button id="login">로그인</button>
+    </div>
+  </div>
+
+  <!-- 사용자 목록 영역 -->
+  <div id="user-list-container">
+    <h3>접속 중인 사용자</h3>
+    <div id="user-list"></div>
+  </div>
+
+  <!-- 채팅 영역 -->
+  <div id="chat-container" class="hidden">
+    <h2 id="welcome-message"></h2>
+    <div id="chat-box"></div>
+    <div id="chat-input">
+      <!-- 기존 -->
+      <!-- <input type="file" id="file-input"> -->
+
+      <!-- 새로: 아이콘 버튼으로 파일 선택 -->
+      <label id="file-label" for="file-input">📎</label>
+      <input type="file" id="file-input" class="hidden" />
+
+      <input type="text" id="message" placeholder="메시지를 입력하세요" />
+      <button id="send">전송</button>
+    </div>
+  </div>
+
+  <!-- 이미지 모달 -->
+  <div id="image-modal" class="hidden">
+    <div id="modal-content">
+      <span id="close-modal">&times;</span>
+      <img id="modal-image" src="" alt="이미지 미리보기" />
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
