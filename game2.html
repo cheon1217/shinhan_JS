@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>울트라 스페이스 슈팅 게임</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+        }
+        #gameContainer {
+            position: relative;
+            width: 600px;
+            height: 600px;
+            border: 3px solid #4d79ff;
+            border-radius: 10px;
+            background-color: #000;
+            overflow: hidden;
+        }
+        #player {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(to bottom, #7df, #18f);
+            clip-path: polygon(50% 0%, 100% 100%, 70% 70%, 50% 85%, 30% 70%, 0% 100%);
+        }
+        .bullet {
+            position: absolute;
+            width: 6px;
+            height: 20px;
+            background: linear-gradient(to bottom, #fff, #ff0);
+            border-radius: 3px;
+        }
+        .enemy {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(to bottom, #f55, #900);
+            clip-path: polygon(50% 0%, 80% 40%, 100% 70%, 50% 100%, 0% 70%, 20% 40%);
+        }
+        #score, #level, #health {
+            position: absolute;
+            font-size: 20px;
+            color: #fff;
+        }
+        #score { top: 10px; left: 10px; }
+        #level { top: 40px; left: 10px; }
+        #health { top: 10px; right: 10px; }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="score">점수: 0</div>
+        <div id="level">레벨: 1</div>
+        <div id="health">체력: 100</div>
+        <div id="player"></div>
+    </div>
+
+    <script>
+        // ==========================
+        // 상수 및 초기 변수 설정
+        // ==========================
+        const GAME_WIDTH = 600;
+        const GAME_HEIGHT = 600;
+        const PLAYER_WIDTH = 60;
+        const PLAYER_HEIGHT = 60;
+        const BULLET_SPEED = 5;
+        const ENEMY_SPEED = 2;
+        const ENEMY_SPAWN_INTERVAL = 2000;
+
+        let score = 0;
+        let level = 1;
+        let health = 100;
+        let isGameOver = false;
+        let playerPosition = { x: 270, y: 500 };
+        let bullets = [];
+        let enemies = [];
+        let keys = { left: false, right: false, space: false };
+
+        // DOM 요소 가져오기
+        const gameContainer = document.getElementById('gameContainer');
+        const player = document.getElementById('player');
+        const scoreElement = document.getElementById('score');
+        const levelElement = document.getElementById('level');
+        const healthElement = document.getElementById('health');
+
+        // ==========================
+        // 게임 루프
+        // ==========================
+        let lastEnemySpawnTime = 0;
+
+        function gameLoop(timestamp) {
+            if (isGameOver) return;
+
+            // 적 생성
+            if (timestamp - lastEnemySpawnTime > ENEMY_SPAWN_INTERVAL) {
+                spawnEnemy();
+                lastEnemySpawnTime = timestamp;
+            }
+
+            updatePlayer();
+            updateBullets();
+            updateEnemies();
+            checkCollisions();
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        // ==========================
+        // 플레이어 업데이트
+        // ==========================
+        function updatePlayer() {
+            if (keys.left && playerPosition.x > 0) playerPosition.x -= 5;
+            if (keys.right && playerPosition.x < GAME_WIDTH - PLAYER_WIDTH) playerPosition.x += 5;
+
+            player.style.left = playerPosition.x + 'px';
+        }
+
+        // ==========================
+        // 총알 업데이트
+        // ==========================
+        function updateBullets() {
+            bullets.forEach((bullet, index) => {
+                bullet.y -= BULLET_SPEED;
+                if (bullet.y < 0) {
+                    if (gameContainer.contains(bullet.element)) {
+                        gameContainer.removeChild(bullet.element);
+                    }
+                    bullets.splice(index, 1);
+                } else {
+                    bullet.element.style.top = bullet.y + 'px';
+                }
+            });
+        }
+
+        function fireBullet() {
+            const bullet = document.createElement('div');
+            bullet.className = 'bullet';
+            bullet.style.left = (playerPosition.x + PLAYER_WIDTH / 2 - 3) + 'px';
+            bullet.style.top = playerPosition.y + 'px';
+            gameContainer.appendChild(bullet);
+            bullets.push({ element: bullet, x: playerPosition.x, y: playerPosition.y });
+        }
+
+        // ==========================
+        // 적 업데이트
+        // ==========================
+        function updateEnemies() {
+            enemies.forEach((enemy, index) => {
+                enemy.y += ENEMY_SPEED;
+                if (enemy.y > GAME_HEIGHT) {
+                    if (gameContainer.contains(enemy.element)) {
+                        gameContainer.removeChild(enemy.element);
+                    }
+                    enemies.splice(index, 1);
+                } else {
+                    enemy.element.style.top = enemy.y + 'px';
+                }
+            });
+        }
+
+        function spawnEnemy() {
+            const enemy = document.createElement('div');
+            enemy.className = 'enemy';
+            enemy.style.left = Math.random() * (GAME_WIDTH - 40) + 'px';
+            enemy.style.top = '0px';
+            gameContainer.appendChild(enemy);
+            enemies.push({ element: enemy, x: parseFloat(enemy.style.left), y: 0 });
+        }
+
+        // ==========================
+        // 충돌 감지
+        // ==========================
+        function checkCollisions() {
+            bullets.forEach((bullet, bulletIndex) => {
+                enemies.forEach((enemy, enemyIndex) => {
+                    if (isColliding(bullet, enemy)) {
+                        if (gameContainer.contains(bullet.element)) {
+                            gameContainer.removeChild(bullet.element);
+                        }
+                        if (gameContainer.contains(enemy.element)) {
+                            gameContainer.removeChild(enemy.element);
+                        }
+                        bullets.splice(bulletIndex, 1);
+                        enemies.splice(enemyIndex, 1);
+                        score += 10;
+                        updateUI();
+                    }
+                });
+            });
+        }
+
+        function isColliding(obj1, obj2) {
+            const rect1 = obj1.element.getBoundingClientRect();
+            const rect2 = obj2.element.getBoundingClientRect();
+            return (
+                rect1.left < rect2.right &&
+                rect1.right > rect2.left &&
+                rect1.top < rect2.bottom &&
+                rect1.bottom > rect2.top
+            );
+        }
+
+        // ==========================
+        // UI 업데이트
+        // ==========================
+        function updateUI() {
+            scoreElement.textContent = `점수: ${score}`;
+            levelElement.textContent = `레벨: ${level}`;
+            healthElement.textContent = `체력: ${health}`;
+        }
+
+        // ==========================
+        // 키 이벤트 처리
+        // ==========================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') keys.left = true;
+            if (e.key === 'ArrowRight') keys.right = true;
+            if (e.key === ' ') fireBullet();
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'ArrowLeft') keys.left = false;
+            if (e.key === 'ArrowRight') keys.right = false;
+        });
+
+        // ==========================
+        // 게임 시작
+        // ==========================
+        requestAnimationFrame(gameLoop);
+    </script>
+</body>
+</html>
