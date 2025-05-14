@@ -1,0 +1,68 @@
+body {
+    font-family: sans-serif;
+    text-align: center;
+    background-color: #fffbe6;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+h1 {
+    margin-top: 20px;
+}
+
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(10, 40px);
+    gap: 15px; /* 칸 간격 추가 */
+    justify-content: center;
+    margin: 20px auto;
+    width: fit-content;
+}
+
+.apple {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.selected {
+    outline: 3px solid yellow;
+}
+
+.line {
+    position: absolute;
+    height: 3px;
+    background-color: yellow;
+    transform-origin: 0 50%;
+    z-index: 1;
+}
+
+#info {
+    margin: 10px 0;
+}
+
+#restart-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+    #game-board {
+    grid-template-columns: repeat(10, 30px);
+    gap: 10px;
+    }
+    .apple {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+    }
+}
