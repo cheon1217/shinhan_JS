@@ -1,0 +1,108 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
+#todo-container {
+  text-align: center;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 400px;
+}
+
+#todo-container h1 {
+  margin-bottom: 20px;
+}
+
+#todo-input {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+#todo-text {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+#add-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#add-button:hover {
+  background-color: #0056b3;
+}
+
+#todo-list {
+  list-style: none;
+  padding: 0;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  cursor: pointer; /* 클릭 가능하도록 커서 변경 */
+}
+
+.todo-item .order {
+  margin-right: 10px;
+  font-weight: bold;
+  color: #555;
+}
+
+.todo-item.completed .order,
+.todo-item.completed span {
+  text-decoration: line-through; /* 완료 시 가운데 줄 */
+  color: gray;
+}
+
+.todo-item button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.todo-item .delete-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.todo-item .delete-button:hover {
+  background-color: #a71d2a;
+}
+
+.todo-item .complete-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.todo-item .complete-button:hover {
+  background-color: #1e7e34;
+}
