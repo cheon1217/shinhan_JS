@@ -1140,6 +1140,7 @@ function resetGame() {
     hasShield = false;
     shieldTime = 0;
     specialWeaponCooldown = 0;
+    levelTimerPaused = false; 
 
     // UI 초기화
     scoreElement.textContent = '점수: 0';
