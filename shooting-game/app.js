@@ -35,7 +35,7 @@ let playerHeight = 60; // 플레이어 높이
 let shieldCount = 0;
 let levelTimer = 0; // 경과 시간(ms)
 let lastTimestamp = 0;
-let levelUpInterval = 12000; // 20초
+let levelUpInterval = 12000; // 12초
 let levelTimerPaused = false;
 
 // 요소 가져오기
@@ -936,6 +936,7 @@ function levelUp() {
     setTimeout(() => {
         levelUpElement.style.display = 'none';
         gamePaused = false;
+        levelTimerPaused = false; // ★ 추가: 레벨업 후 타이머 재개
         gameLoop();
     }, 1500);
 }
@@ -1049,6 +1050,12 @@ let gameLoopId;
 function gameLoop(timestamp = 0) {
     if (isGameOver || gamePaused) return;
 
+    // 특수 무기 쿨다운 감소
+    if (specialWeaponCooldown > 0) {
+        specialWeaponCooldown -= (timestamp - lastTimestamp);
+        if (specialWeaponCooldown < 0) specialWeaponCooldown = 0;
+    }
+
     // 타이머 관리
     if (!levelTimerPaused) {
         if (lastTimestamp === 0) lastTimestamp = timestamp;
@@ -1056,7 +1063,7 @@ function gameLoop(timestamp = 0) {
     }
     lastTimestamp = timestamp;
 
-    // 60초마다 레벨업 (보스전 아닐 때만)
+    // 12초마다 레벨업 (보스전 아닐 때만)
     if (!bossActive && !levelTimerPaused && levelTimer >= levelUpInterval) {
         levelTimer = 0;
         level++;
