@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>오늘의 메뉴</title>
+  <link rel="stylesheet" href="styles/style.css">
+  </head>
+<body>
+  <header>
+    <button id="randomButton">랜덤 선택</button>
+  </header>
+  <main>
+    <h1 id="menuTitle">오늘의 메뉴: 케이크</h1>
+    <div id="mainImageContainer">
+      <img id="mainImage" src="images/cake.jpg" alt="케이크">
+    </div>
+    <div id="thumbnails">
+      <img class="thumbnail" src="images/cake.jpg" alt="케이크" data-name="케이크">
+      <img class="thumbnail" src="images/pizza.jpg" alt="피자" data-name="피자">
+      <img class="thumbnail" src="images/sushi.jpg" alt="스시" data-name="스시">
+      <img class="thumbnail" src="images/burger.jpg" alt="버거" data-name="버거">
+    </div>
+    <!-- 새로운 슬라이드 영역 -->
+    <div id="slideshow">
+      <img class="slide" src="images/spring.jpg" alt="케이크">
+      <img class="slide" src="images/summer.jpg" alt="피자">
+      <img class="slide" src="images/fall.jpg" alt="스시">
+      <img class="slide" src="images/winter.jpg" alt="버거">
+      <!-- 슬라이드 버튼을 슬라이드 영역 안에 포함 -->
+      <button id="prevSlide" class="slide-button">◀</button>
+      <button id="nextSlide" class="slide-button">▶</button>
+    </div>
+
+    
+  </main>
+  <script src="js/script.js"></script>
+</body>
+</html>
