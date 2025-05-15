@@ -661,7 +661,7 @@ function checkCollisions() {
                     let pointsGained = 10;
                     if (enemyType === 'enemy2') pointsGained = 20;
                     else if (enemyType === 'enemy3') pointsGained = 30;
-                    else if (enemyType === 'boss') pointsGained = 500 * level;
+                    else if (enemyType === 'boss') pointsGained = 100;
 
                     addScore(pointsGained); // <-- 여기로 변경
 
@@ -700,15 +700,13 @@ function checkCollisions() {
                         specialWeaponAmmo += 2;
                         updatePowerUpDisplay();
 
-                        // 점수 100점 추가 (레벨업 없음)
-                        addScore(100);
-                        // 레벨 +1
                         level++;
+                        levelUp();
 
-                        // 타이머 재시작
+                        // ★ 레벨업/level++/lastTimestamp 삭제!
+                        // ★ 타이머만 재시작
                         levelTimer = 0;
                         levelTimerPaused = false;
-                        lastTimestamp = 0;
                     }
                     // 일반 적 처치시 랜덤하게 파워업 드랍
                     else if (Math.random() < 0.1) {
@@ -940,7 +938,8 @@ function levelUp() {
     setTimeout(() => {
         levelUpElement.style.display = 'none';
         gamePaused = false;
-        levelTimerPaused = false; // ★ 추가: 레벨업 후 타이머 재개
+        levelTimerPaused = false; // ★ 여기서 타이머 재개!
+        lastTimestamp = 0;        // ★ 타이머 누적 오류 방지
         gameLoop();
     }, 1500);
 }
