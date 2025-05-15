@@ -323,6 +323,7 @@ function fireSpecialWeapon() {
 
     let duration = 1000; // 1초
     let startTime = null;
+    let bossLaserHit = false; // 보스에게 한 번만 데미지
 
     function animateLaser(ts) {
         if (!startTime) startTime = ts;
@@ -331,7 +332,7 @@ function fireSpecialWeapon() {
         let newY = laserY - progress * (laserY + 18);
         laser.style.top = newY + 'px';
 
-        // 충돌 처리 (매 프레임마다 데미지 및 즉시 제거)
+        // 충돌 처리 (보스는 한 번만 100 깎임)
         const gameRect = gameContainer.getBoundingClientRect();
         for (let i = enemies.length - 1; i >= 0; i--) {
             const enemyObj = enemies[i];
@@ -345,14 +346,17 @@ function fireSpecialWeapon() {
                 enemyRect.top <= laserRect.bottom
             ) {
                 if (enemyType === 'boss') {
-                    enemyObj.health -= 10;
-                    bossHealthFill.style.width = (enemyObj.health / bossMaxHealth * 100) + '%';
-                    enemy.style.backgroundColor = '#44f';
-                    setTimeout(() => {
-                        if (enemyObj && enemyObj.element === enemy) {
-                            enemy.style.backgroundColor = '';
-                        }
-                    }, 100);
+                    if (!bossLaserHit) {
+                        bossLaserHit = true;
+                        enemyObj.health -= 100;
+                        bossHealthFill.style.width = (enemyObj.health / bossMaxHealth * 100) + '%';
+                        enemy.style.backgroundColor = '#44f';
+                        setTimeout(() => {
+                            if (enemyObj && enemyObj.element === enemy) {
+                                enemy.style.backgroundColor = '';
+                            }
+                        }, 100);
+                    }
                 } else {
                     enemyObj.health = 0;
                 }
