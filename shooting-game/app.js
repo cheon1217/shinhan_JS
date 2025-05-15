@@ -770,7 +770,9 @@ function checkCollisions() {
         
         // 화면 밖으로 나간 총알 제거
         if (bulletRect.bottom > gameRect.bottom) {
-            gameContainer.removeChild(bullet);
+            if (gameContainer.contains(bullet)) {
+                gameContainer.removeChild(bullet);
+            }
             enemyBullets.splice(i, 1);
         }
     }
@@ -795,7 +797,9 @@ function checkCollisions() {
                 );
                 // 보스가 아닌 경우만 즉시 파괴
                 if (enemies[i].type !== 'boss') {
-                    gameContainer.removeChild(enemy);
+                    if (gameContainer.contains(enemy)) {
+                        gameContainer.removeChild(enemy);
+                    }
                     enemies.splice(i, 1);
                     continue;
                 }
