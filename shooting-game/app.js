@@ -235,35 +235,52 @@ function fireBullet() {
         shootSound.play().catch(e => console.log("오디오 재생 실패:", e));
     }
 
-    const bulletY = playerVerticalPosition; // 플레이어 Y 좌표에서 총알 시작
+    const bulletY = playerVerticalPosition;
+    const bulletWidth = 6;
+    const centerX = playerPosition + playerWidth / 2 - bulletWidth / 2;
 
-    switch(weaponLevel) {
-        case 1:
-            createBullet(playerPosition + playerWidth / 2 - 3, bulletY, 'bullet');
-            break;
-        case 2:
-            createBullet(playerPosition + playerWidth / 3 - 3, bulletY, 'bullet');
-            createBullet(playerPosition + playerWidth * 2 / 3 - 3, bulletY, 'bullet');
-            break;
-        case 3:
-            createBullet(playerPosition + playerWidth / 2 - 3, bulletY, 'bullet');
-            createBullet(playerPosition + playerWidth / 4 - 3, bulletY, 'bullet');
-            createBullet(playerPosition + playerWidth * 3 / 4 - 3, bulletY, 'bullet');
-            break;
-        case 4:
-            createBullet(playerPosition + playerWidth / 5 - 3, bulletY, 'bullet');
-            createBullet(playerPosition + playerWidth * 2 / 5 - 3, bulletY, 'bullet');
-            createBullet(playerPosition + playerWidth * 3 / 5 - 3, bulletY, 'bullet');
-            createBullet(playerPosition + playerWidth * 4 / 5 - 3, bulletY, 'bullet');
-            break;
-        case 5:
-            createBullet(playerPosition + playerWidth / 2 - 3, bulletY, 'bullet');
-            createBullet(playerPosition + playerWidth / 3 - 3, bulletY, 'bullet');
-            createBullet(playerPosition + playerWidth * 2 / 3 - 3, bulletY, 'bullet');
-            createBullet(playerPosition + playerWidth / 6 - 3, bulletY, 'bullet');
-            createBullet(playerPosition + playerWidth * 5 / 6 - 3, bulletY, 'bullet');
-            break;
+    // 무기 레벨별 총알 개수 및 분산 각도
+    const bulletCount = [1, 2, 3, 4, 5][weaponLevel - 1];
+    const spread = [0, 40, 80, 120, 180][weaponLevel - 1]; // 총 분산폭(px)
+
+    for (let i = 0; i < bulletCount; i++) {
+        // 분산: 중앙에서 좌우로 퍼지게
+        let offset = 0;
+        if (bulletCount > 1) {
+            offset = (i - (bulletCount - 1) / 2) * (spread / (bulletCount - 1));
+        }
+        createBullet(centerX + offset, bulletY, 'bullet');
     }
+
+    // const bulletY = playerVerticalPosition; // 플레이어 Y 좌표에서 총알 시작
+
+    // switch(weaponLevel) {
+    //     case 1:
+    //         createBullet(playerPosition + playerWidth / 2 - 3, bulletY, 'bullet');
+    //         break;
+    //     case 2:
+    //         createBullet(playerPosition + playerWidth / 3 - 3, bulletY, 'bullet');
+    //         createBullet(playerPosition + playerWidth * 2 / 3 - 3, bulletY, 'bullet');
+    //         break;
+    //     case 3:
+    //         createBullet(playerPosition + playerWidth / 2 - 3, bulletY, 'bullet');
+    //         createBullet(playerPosition + playerWidth / 4 - 3, bulletY, 'bullet');
+    //         createBullet(playerPosition + playerWidth * 3 / 4 - 3, bulletY, 'bullet');
+    //         break;
+    //     case 4:
+    //         createBullet(playerPosition + playerWidth / 5 - 3, bulletY, 'bullet');
+    //         createBullet(playerPosition + playerWidth * 2 / 5 - 3, bulletY, 'bullet');
+    //         createBullet(playerPosition + playerWidth * 3 / 5 - 3, bulletY, 'bullet');
+    //         createBullet(playerPosition + playerWidth * 4 / 5 - 3, bulletY, 'bullet');
+    //         break;
+    //     case 5:
+    //         createBullet(playerPosition + playerWidth / 2 - 3, bulletY, 'bullet');
+    //         createBullet(playerPosition + playerWidth / 3 - 3, bulletY, 'bullet');
+    //         createBullet(playerPosition + playerWidth * 2 / 3 - 3, bulletY, 'bullet');
+    //         createBullet(playerPosition + playerWidth / 6 - 3, bulletY, 'bullet');
+    //         createBullet(playerPosition + playerWidth * 5 / 6 - 3, bulletY, 'bullet');
+    //         break;
+    // }
 }
 
 // 총알 생성 함수
