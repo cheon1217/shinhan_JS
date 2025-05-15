@@ -1151,7 +1151,7 @@ function resetGame() {
     bossHealthDisplay.style.display = 'none';
     gameOverElement.style.display = 'none';
     levelUpElement.style.display = 'none';
-    bossWarningElement.style.display = 'none';
+    bossWarningElement.style.display = 'none';  
 
     // 게임 컨테이너 초기화
     while (gameContainer.firstChild) {
