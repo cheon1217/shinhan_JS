@@ -279,32 +279,144 @@ function createBullet(xPos, yPos, type) {
 // 특수 무기 발사
 function fireSpecialWeapon() {
     if (specialWeaponAmmo <= 0 || specialWeaponCooldown > 0) return;
-    
+
     if (soundEnabled) {
         specialWeaponSound.currentTime = 0;
         specialWeaponSound.play().catch(e => console.log("오디오 재생 실패:", e));
     }
-    
+
     specialWeaponAmmo--;
-    specialWeaponCooldown = 3000; // 3초 쿨다운
+    specialWeaponCooldown = 3000;
     updatePowerUpDisplay();
-    
-    // 초강력 빔
-    const powerShot = document.createElement('div');
-    powerShot.className = 'powerShot';
-    powerShot.style.left = (playerPosition + playerWidth/2 - 7) + 'px';
-    powerShot.style.bottom = '70px';
-    gameContainer.appendChild(powerShot);
-    bullets.push({element: powerShot, type: 'powerShot'});
-    
+
+    // 레이저 생성 (플레이어 중앙에서 시작)
+    const laser = document.createElement('div');
+    laser.className = 'specialLaser';
+    laser.style.left = '0px';
+    laser.style.width = '600px';
+    laser.style.height = '18px';
+    laser.style.position = 'absolute';
+    let laserY = playerVerticalPosition + playerHeight / 2 - 9;
+    laser.style.top = laserY + 'px';
+    laser.style.background = 'linear-gradient(to right, #fff 40%, #44f 60%)';
+    laser.style.boxShadow = '0 0 32px #44f, 0 0 64px #fff';
+    laser.style.opacity = '0.85';
+    laser.style.zIndex = '2000';
+    gameContainer.appendChild(laser);
+
+    let duration = 1000; // 1초
+    let startTime = null;
+
+    function animateLaser(ts) {
+        if (!startTime) startTime = ts;
+        let elapsed = ts - startTime;
+        let progress = Math.min(elapsed / duration, 1);
+        let newY = laserY - progress * (laserY + 18);
+        laser.style.top = newY + 'px';
+
+        // 충돌 처리 (매 프레임마다 데미지 및 즉시 제거)
+        const gameRect = gameContainer.getBoundingClientRect();
+        for (let i = enemies.length - 1; i >= 0; i--) {
+            const enemyObj = enemies[i];
+            const enemy = enemyObj.element;
+            const enemyType = enemyObj.type;
+            const enemyRect = enemy.getBoundingClientRect();
+            const laserRect = laser.getBoundingClientRect();
+
+            if (
+                enemyRect.bottom >= laserRect.top &&
+                enemyRect.top <= laserRect.bottom
+            ) {
+                if (enemyType === 'boss') {
+                    enemyObj.health -= 10;
+                    bossHealthFill.style.width = (enemyObj.health / bossMaxHealth * 100) + '%';
+                    enemy.style.backgroundColor = '#44f';
+                    setTimeout(() => {
+                        if (enemyObj && enemyObj.element === enemy) {
+                            enemy.style.backgroundColor = '';
+                        }
+                    }, 100);
+                } else {
+                    enemyObj.health = 0;
+                }
+
+                // health가 0 이하가 되면 즉시 제거
+                if (enemyObj.health <= 0) {
+                    // 폭발 효과
+                    createExplosion(
+                        enemyRect.left - gameRect.left + enemyRect.width/2,
+                        enemyRect.top - gameRect.top + enemyRect.height/2,
+                        enemyType === 'boss' ? 100 : 60
+                    );
+
+                    // 점수 추가
+                    let pointsGained = 10;
+                    if (enemyType === 'enemy2') pointsGained = 20;
+                    else if (enemyType === 'enemy3') pointsGained = 30;
+                    else if (enemyType === 'boss') pointsGained = 100;
+
+                    addScore(pointsGained);
+
+                    // 점수 표시 효과
+                    showNotification(
+                        '+' + pointsGained,
+                        enemyRect.left - gameRect.left + enemyRect.width/2,
+                        'top',
+                        '#ff0'
+                    );
+
+                    // 적 제거
+                    if (gameContainer.contains(enemy)) {
+                        gameContainer.removeChild(enemy);
+                    }
+                    enemies.splice(i, 1);
+
+                    // 보스 처치 시 추가 처리
+                    if (enemyType === 'boss') {
+                        bossActive = false;
+                        bossHealthDisplay.style.display = 'none';
+                        killBoss(enemy);
+
+                        // 모든 적 제거
+                        for (let k = enemies.length - 1; k >= 0; k--) {
+                            if (enemies[k].element !== enemy) {
+                                gameContainer.removeChild(enemies[k].element);
+                            }
+                            enemies.splice(k, 1);
+                        }
+
+                        specialWeaponAmmo += 2;
+                        updatePowerUpDisplay();
+
+                        level++;
+                        levelUp();
+
+                        levelTimer = 0;
+                        levelTimerPaused = false;
+                    } else if (Math.random() < 0.1) {
+                        spawnPowerUp();
+                    }
+                }
+            }
+        }
+
+        if (progress < 1) {
+            requestAnimationFrame(animateLaser);
+        } else {
+            if (gameContainer.contains(laser)) {
+                gameContainer.removeChild(laser);
+            }
+        }
+    }
+    requestAnimationFrame(animateLaser);
+
     // 화면 번쩍임 효과
     gameContainer.style.boxShadow = '0 0 40px #44f, 0 0 80px #22f';
     setTimeout(() => {
         gameContainer.style.boxShadow = '0 0 20px #00f, 0 0 40px #00f';
     }, 200);
-    
-    // 알림 표시
-    showNotification('특수 무기 발사!', playerPosition + playerWidth/2, 'bottom', '#44f');
+
+    showNotification('특수 레이저 발사!', playerPosition + playerWidth/2, 'bottom', '#44f');
 }
 
 // 적 생성

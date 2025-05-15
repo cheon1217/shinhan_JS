@@ -519,3 +519,14 @@ body {
     transition: opacity 0.7s, transform 0.7s;
     filter: blur(8px) brightness(2);
 }
+
+.specialLaser {
+    pointer-events: none;
+    border-radius: 8px;
+    animation: laserGlow 1s linear;
+}
+@keyframes laserGlow {
+    0% { opacity: 0.7; box-shadow: 0 0 32px #44f, 0 0 64px #fff; }
+    50% { opacity: 1; box-shadow: 0 0 64px #fff, 0 0 128px #44f; }
+    100% { opacity: 0.7; box-shadow: 0 0 32px #44f, 0 0 64px #fff; }
+}
