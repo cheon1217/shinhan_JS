@@ -1,0 +1,192 @@
+/* App.css */
+
+/* Google Fonts 추가 */
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&family=Noto+Sans+KR:wght@400;700&display=swap');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* 스크롤 활성화 */
+}
+
+body {
+  background-color: #fffbe6;
+  font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 18px;
+  transition: padding-top 0.5s ease; /* 애니메이션 추가 */
+}
+
+body.started {
+  padding-top: 50px; /* 게임 시작 시 위로 이동 */
+}
+
+.container {
+  max-width: 600px;
+  width: 100%;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.status {
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+.difficulty-select {
+  margin-bottom: 15px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.combo-message {
+  font-size: 24px;
+  font-weight: bold;
+  color: orange;
+  margin-bottom: 15px;
+}
+
+.final-score {
+  margin-top: 30px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #dc2626;
+  line-height: 1.6;
+}
+
+.restart-button {
+  margin-top: 25px;
+  padding: 12px 24px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.restart-button:hover {
+  background-color: #2563eb;
+}
+
+.difficulty-select label {
+  font-weight: bold;
+}
+
+.difficulty-select select {
+  padding: 8px 14px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.difficulty-select select:disabled {
+  background-color: #eee;
+  color: #999;
+}
+
+.start-message {
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.nickname-input {
+  padding: 10px;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+}
+
+.login-button {
+  padding: 12px 24px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.high-scores {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.high-scores h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.high-scores ul {
+  list-style: none;
+  padding: 0;
+}
+
+.high-scores li {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.sort-options {
+  margin-bottom: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.sort-options button {
+  padding: 8px 16px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.sort-options button:hover {
+  background-color: #2563eb;
+}
+
+.pagination {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.pagination button {
+  padding: 8px 16px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

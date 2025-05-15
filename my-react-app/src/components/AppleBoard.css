@@ -1,0 +1,35 @@
+/* AppleBoard.css */
+.board-wrapper {
+  position: relative;
+}
+
+.line-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.apple-board {
+  display: grid;
+  grid-template-columns: repeat(10, 40px);
+  gap: 15px;
+  justify-content: center;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 600px) {
+  .apple-board {
+    grid-template-columns: repeat(10, 30px);
+    gap: 4px;
+  }
+
+  .apple-cell {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+  }
+}
