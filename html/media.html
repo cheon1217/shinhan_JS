@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+    <!-- <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> -->
+</head>
+<body>
+    <img src="img/google.png" width="100" height="100" alt="구글 로고">
+    <hr/>
+    <video src="video/test.mp4" width="300" height="200" controls></video>
+    <hr/>
+    <a href="https://www.naver.com" target="_blank">네이버</a>
+    <a href="text.html">TEXT</a>
+    <a href="#target">맨아래로</a>
+    <a href="#target">맨아래로</a>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Saepe doloremque labore autem placeat molestiae vero quae nihil repellat ea deleniti suscipit minima unde, incidunt quam explicabo quo aut aspernatur in.</p> 
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Saepe doloremque labore autem placeat molestiae vero quae nihil repellat ea deleniti suscipit minima unde, incidunt quam explicabo quo aut aspernatur in.</p> 
+    <p id="target">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa, molestias libero? Animi, eius accusamus! Quo, neque aperiam eos nemo sit delectus excepturi consequuntur voluptatem accusantium saepe suscipit, iste sunt iure.</p>
+    <hr/>
+    <video
+    id="my-video"
+    class="video-js"
+    controls
+    preload="auto"
+    width="640"
+    height="264"
+    poster="MY_VIDEO_POSTER.jpg"
+    data-setup="{}"
+  >
+    <source src="video/test.mp4" type="video/mp4" />
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a
+      web browser that
+      <a href="https://videojs.com/html5-video-support/" target="_blank"
+        >supports HTML5 video</a
+      >
+    </p>
+  </video>
+
+  <hr/>
+  <iframe src="http://daum.net" width="500" height="500"></iframe>
+
+  <hr/>
+  <iframe 
+    width="600" 
+    height="350" 
+    src="https://www.youtube.com/embed/4txrPwjxSRI" 
+    title="YouTube video player" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowfullscreen>
+  </iframe>
+
+  <script src="https://vjs.zencdn.net/8.22.0/video.min.js"></script>
+</body>
+</html>

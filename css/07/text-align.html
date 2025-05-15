@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dongle&display=swap" rel="stylesheet">
+    <style>
+        div {
+            width: 500px;
+            text-align: center;
+            height: 100px;
+            line-height: 100px;
+            font-size: 32px;
+        }
+        a {
+            text-decoration: none;
+            color: black;
+        }
+        .shadow1 {
+            color: red;
+            text-shadow: 1px 1px black;
+        }
+
+        .shadow2 {
+            text-shadow: 5px 5px 3px #ffa500;
+        }
+
+        .shadow3 {
+            color: #fff;
+            text-shadow: 7px -7px 20px #000;
+        }
+
+        /* font 속성 font-style, font-variant, font-weight, font-size, font-family */
+        #font {
+            font: normal normal bold 32px "Dongle";
+        }
+
+        #box {
+            width: 200px;
+            /* white-space: nowrap; */
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        ol {
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+    <ol>
+        <li>월요일</li>
+        <li>화요일</li>
+        <li>수요일</li>
+    </ol>
+    <div id="box">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt aliquid cumque laboriosam praesentium aut officia, aspernatur fuga velit labore molestias eveniet ducimus corrupti fugiat? Laboriosam vel alias quo perferendis nostrum.</div>
+    <h1 class="shadow1">HTML</h1>
+    <h1 class="shadow2">CSS</h1>
+    <h1 class="shadow3">자바스크립트</h1>
+    <div><a href="">홍길동</a></div>
+    <div>홍길동</div>
+    <div id="font">홍길동</div>
+</body>
+</html>

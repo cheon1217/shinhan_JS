@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            width: 700px;
+            display: flex;
+            background-color: #eee;
+            border: 1px solid #222;
+            margin-bottom: 30px;
+        }
+
+        #opt1 {
+            flex-flow: row wrap;
+        }
+        #opt2 {
+            flex-flow: row nowrap;
+        }
+
+        .box {
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
+            background-color: #ccc;
+            text-align: center;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="opt1">
+        <div class="box">1</div>
+        <div class="box">2</div>
+        <div class="box">3</div>
+        <div class="box">4</div>
+        <div class="box">5</div>
+        <div class="box">6</div>
+    </div>
+    <div class="container" id="opt2">
+        <div class="box">1</div>
+        <div class="box">2</div>
+        <div class="box">3</div>
+        <div class="box">4</div>
+        <div class="box">5</div>
+        <div class="box">6</div>
+    </div>
+</body>
+</html>

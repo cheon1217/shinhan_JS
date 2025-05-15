@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="get" action="" enctype="multipart/form-data">
+        <input type="hidden" name="no" value="1">
+        아이디 : <input type="text" name="id"><br>
+        비밀번호 : <input type="password" name="pwd"><br>
+        성별 : 
+            <input type="radio" name="gender" value="1">여
+            <input type="radio" name="gender" value="2">남<br>
+        취미 :
+            <input type="checkbox" name="hobby" value="1">게임
+            <input type="checkbox" name="hobby" value="2">독서
+            <input type="checkbox" name="hobby" value="3" checked>영화
+            <input type="checkbox" name="hobby" value="4">낚시
+            <input type="checkbox" name="hobby" value="5">운동 <br>
+        첨부파일 : <input type="file" name="profile"><br>
+        최종학력 : 
+            <select name="school"> <!-- multiple -->
+                <option value="3">대학원</option>
+                <option value="2" selected>대학교</option>
+                <option value="1">고등학교</option>
+            </select> <br/>
+        <textarea name="content" rows="5" cols="30">내용을 입력하세요.</textarea><br>
+        <input type="button" value="버튼">
+        <input type="reset" value="초기화">
+        <input type="submit">
+    </form>
+</body>
+</html>
