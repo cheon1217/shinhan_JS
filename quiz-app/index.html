@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="styles/style.css" type="text/css">
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>퀴즈 게임</h1>
+        <div id="question">퀴즈 로딩중..</div>
+
+        <ul>
+            <li><button class="answer-btn" data-choice="a">A</button></li>
+            <li><button class="answer-btn" data-choice="b">B</button></li>
+            <li><button class="answer-btn" data-choice="c">C</button></li>
+            <li><button class="answer-btn" data-choice="d">D</button></li>
+        </ul>
+
+        <button id="next-btn" style="display: none;">다음 문제</button>
+        <div id="result" style="display: none;"></div>
+
+        <!-- 진행률 바 -->
+        <div class="progress-container">
+        <div id="progress-bar"></div>
+        </div>
+
+        <!-- 타이머 -->
+        <div id="timer">남은 시간: <span id="time-left">10</span>초</div>
+
+        <!-- 해설 -->
+        <div id="explanation" style="display: none;"></div>
+
+
+    <script src="js/script.js"></script>
+</body>
+</html>
