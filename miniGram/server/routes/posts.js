@@ -1,31 +1,39 @@
 import { Router } from 'express';
-import { prepare } from '../db/init';
-import { multi } from '../middleware/upload';
-import auth from '../middleware/auth';
+import db from '../db/db.js';
+import { multi } from '../middleware/upload.js';
+import auth from '../middleware/auth.js';
+
 const router = Router();
 
+// 게시물 등록 (이미 구현됨)
 router.post('/', auth, multi, (req, res) => {
   const { title, description } = req.body;
-  const createdAt = new Date().toISOString();
-
-  // 여러 이미지 경로를 JSON 문자열로 저장
   const imageUrls = req.files.map(f => `/uploads/${f.filename}`);
-  prepare(`
-    INSERT INTO posts (imageUrl, title, description, createdAt, userId)
-    VALUES (?, ?, ?, ?, ?)
-  `).run(JSON.stringify(imageUrls), title, description, createdAt, req.userId);
-
+  db.prepare(`
+    INSERT INTO posts (imageUrl, title, description, authorId)
+    VALUES (?, ?, ?, ?)
+  `).run(JSON.stringify(imageUrls), title, description, req.userId);
   res.json({ message: '포스트 업로드 완료', imageUrls });
 });
 
-router.get('/', (_, res) => {
-  const posts = prepare(`
-    SELECT posts.*, users.username FROM posts
-    JOIN users ON posts.userId = users.id
-    ORDER BY posts.createdAt DESC
-  `).all();
+// 게시물 수정
+router.put('/:postId', auth, (req, res) => {
+  const { postId } = req.params;
+  const { title, description } = req.body;
+  // 본인 게시물만 수정 가능
+  const post = db.prepare(`SELECT * FROM posts WHERE id = ?`).get(postId);
+  if (!post || post.authorId !== req.userId) return res.status(403).json({ message: '권한 없음' });
+  db.prepare(`UPDATE posts SET title = ?, description = ? WHERE id = ?`).run(title, description, postId);
+  res.json({ message: '수정 완료' });
+});
 
-  res.json(posts);
+// 게시물 삭제
+router.delete('/:postId', auth, (req, res) => {
+  const { postId } = req.params;
+  const post = db.prepare(`SELECT * FROM posts WHERE id = ?`).get(postId);
+  if (!post || post.authorId !== req.userId) return res.status(403).json({ message: '권한 없음' });
+  db.prepare(`DELETE FROM posts WHERE id = ?`).run(postId);
+  res.json({ message: '삭제 완료' });
 });
 
 export default router;
