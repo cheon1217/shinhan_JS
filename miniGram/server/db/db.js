@@ -80,6 +80,16 @@ try {
     )
   `).run();
 
+  db.prepare(`
+    CREATE TABLE IF NOT EXISTS email_verification (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT,
+      code TEXT,
+      expires INTEGER, -- UNIX timestamp(ms)
+      verified INTEGER DEFAULT 0
+    )
+  `).run();
+
 } catch (err) {
   console.error('DB 테이블 생성 오류:', err);
 }
