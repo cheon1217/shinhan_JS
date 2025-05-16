@@ -1,20 +1,21 @@
 import { Router } from 'express';
 import { prepare } from '../db/init';
-import { single } from '../middleware/upload';
+import { multi } from '../middleware/upload';
 import auth from '../middleware/auth';
 const router = Router();
 
-router.post('/', auth, single('image'), (req, res) => {
+router.post('/', auth, multi, (req, res) => {
   const { title, description } = req.body;
-  const imageUrl = `/uploads/${req.file.filename}`;
   const createdAt = new Date().toISOString();
 
+  // 여러 이미지 경로를 JSON 문자열로 저장
+  const imageUrls = req.files.map(f => `/uploads/${f.filename}`);
   prepare(`
     INSERT INTO posts (imageUrl, title, description, createdAt, userId)
     VALUES (?, ?, ?, ?, ?)
-  `).run(imageUrl, title, description, createdAt, req.userId);
+  `).run(JSON.stringify(imageUrls), title, description, createdAt, req.userId);
 
-  res.json({ message: '포스트 업로드 완료' });
+  res.json({ message: '포스트 업로드 완료', imageUrls });
 });
 
 router.get('/', (_, res) => {
