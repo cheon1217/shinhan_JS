@@ -5,4 +5,6 @@ const storage = diskStorage({
   filename: (_, file, cb) => cb(null, Date.now() + '-' + file.originalname),
 });
 
-export default multer({ storage });
+const upload = multer({ storage });
+export const multi = upload.array('images', 10); // 최대 10개까지 허용
+export default upload;
