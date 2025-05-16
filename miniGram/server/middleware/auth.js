@@ -1,4 +1,5 @@
-import { verify } from 'jsonwebtoken';
+import pkg from 'jsonwebtoken';
+const { verify } = pkg;
 
 export default (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];

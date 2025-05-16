@@ -1,14 +1,16 @@
 import { Router } from 'express';
 import nodemailer from 'nodemailer';
 import { hash, compare } from 'bcryptjs';
-import { sign } from 'jsonwebtoken';
-import { prepare } from '../db/init';
+import pkg from 'jsonwebtoken';
+const { sign } = pkg;
+import db from '../db/db.js';
 
 const router = Router();
-const emailCodes = new Map(); // {email: {code, expires}}
 
 const transporter = nodemailer.createTransport({
-  service: 'naver',
+  host: 'smtp.naver.com',
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
@@ -60,7 +62,7 @@ router.post('/signup', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
-  const user = prepare(`SELECT * FROM users WHERE username = ?`).get(username);
+  const user = db.prepare(`SELECT * FROM users WHERE username = ?`).get(username);
   if (!user || !(await compare(password, user.password)))
     return res.status(401).json({ message: '로그인 실패' });
 
