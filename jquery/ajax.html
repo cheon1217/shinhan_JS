@@ -1,0 +1,92 @@
+<script>
+    let req = new XMLHttpRequest();
+    req.open('get', 'http://jsonplaceholder.typicode.com/posts', true);
+    req.send();
+    console.log(req.response);
+
+    req.onreadystatechange = function() {
+        if (req.readyState == 4 && req.status == 200) {
+            let data = JSON.parse(req.response);
+            // console.log(data);
+            let str = "";
+            for (let i = 0; i < data.length; i++) {
+                str += "<h1>" + data[i].title + "</h1>";
+            }
+            // console.log(req.response);
+        }
+
+        // console.log('상태값:' + this.readyState);
+        // console.log('상태값:' + this.status);
+    }
+
+    // setTimeout()
+    // setInterval()
+    setTimeout(function() {
+        console.log('setTimeout');
+    }, 1000);
+
+    // setInterval(function() {
+    //     console.log('setInterval');
+    // }, 1000);
+
+     // Promise (ES8)
+    function test(func) {
+        return new Promise(function(resolve, reject) {
+            setTimeout(function() {
+                resolve('문자열');
+            });
+        });
+    }
+    test().then(function(arg) {
+        console.log(arg);
+    });
+
+    console.log('main 흐름');
+
+    // 비동기를 동기적으로 처리
+    async function test2() {
+        let result = await test(function(arg) {
+            return arg;
+        });
+        console.log('test2:'+result);
+    };
+    test2();
+
+    fetch('http://jsonplaceholder.typicode.com/posts') 
+        .then(res => res.json())
+        .then(json => console.log(json));
+
+    window.onload = function() {
+    //     let cnt = 0;
+    //     let interval = null;
+
+        // document.getElementById('start').onclick = function() {
+        //     interval = setInterval(function() {
+        //         cnt++;
+        //         document.getElementById('cnt').innerHTML = cnt;
+        //     }, 1000);
+        // }
+
+        // document.getElementById('stop').onclick = function() {
+        //     clearInterval(interval);
+        // }
+
+        let start = document.querySelector('#start');
+        let end = document.querySelector('#stop');
+        let v = 0;
+        
+        start.onclick = function() {
+            v = setInterval(function() {
+                let cnt = Number(document.querySelector('#cnt').innerHTML);
+                document.querySelector('#cnt').innerHTML = cnt + 1;
+            }, 1000);
+        }
+
+        end.onclick = function() {
+            clearInterval(v);
+        }
+    }
+</script>
+<div id="cnt">0</div>
+<input type="button" value="시작" id="start">
+<input type="button" value="중지" id="stop">
