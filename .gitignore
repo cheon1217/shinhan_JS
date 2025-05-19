@@ -5,3 +5,5 @@ node_modules
 *.json
 *.tsbuildinfo
 *.zip
+*.jpg
+*.png
